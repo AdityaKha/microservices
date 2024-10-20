@@ -1,28 +1,42 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const cors = require('cors')
 const crypto = require('crypto')
 const app = express()
-const comments = {}
+// {postId : {
+//   commentId : { title : ""}
+//  }
+// }
+const commentsByPostId = {}
 
 app.use(bodyParser.json())
+app.use(cors())
 
-app.get('/posts/:id/comments', (req,res) =>{
-    console.log(req.query)
-    console.log(req.params)
-    res.send(comments)
-})
+app.get('/posts/:id/comments', (req, res) => {
 
-app.post('/posts/:id/comments', (req,res) =>{
-    const id = crypto.randomBytes(4).toString('hex')
-    const {title} = req.body
-    comments[id] = {
-        id, title
+    if (req.params.id == 'all') {
+        console.log(commentsByPostId)
+        console.log(req.params.id == 'all')
+        res.send(commentsByPostId)
+        return
     }
 
-    res.status(201).send(comments[id])
+    res.send(commentsByPostId[req.params.id] || [])
+})
+
+app.post('/posts/:id/comments', (req, res) => {
+    const commentId = crypto.randomBytes(4).toString('hex')
+    const { content } = req.body
+    const postId = req.params.id
+    const comments = commentsByPostId[postId] || []
+    comments.push({ commentId, content })
+
+    commentsByPostId[postId] = comments
+
+    res.status(201).send(commentsByPostId)
 })
 
 
-app.listen(5000,()=> {
+app.listen(5000, () => {
     console.log('listen')
 })
