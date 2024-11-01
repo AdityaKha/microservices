@@ -20,7 +20,7 @@ export default () => {
     <form onSubmit={onSubmit}>
       <div className='form-group'>
         <label>Title</label>
-        <div class="input-group mb-3">
+        <div className="input-group mb-3">
           <input value={title} onChange={e => setTitle(e.target.value)} type="text" className="form-control" placeholder="Recipient's username" />
           <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Create Post</button>
         </div>

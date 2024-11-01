@@ -6,10 +6,10 @@ import PostList from './PostList';
 function App() {
   return (
     <div className="App">
-      <p>
+      <div>
         <CreatePost />
         <PostList />
-      </p>
+      </div>
     </div>
   );
 }

@@ -30,6 +30,15 @@ app.post('/posts', async (req, res) => {
     res.status(201).send(posts[id])
 })
 
+app.post('/events', (req, res) => {
+    const event = req.body
+    console.log(event.type)
+   
+
+    res.send({ status: "Ok" })
+})
+
+
 
 app.listen(4000, () => {
     console.log('listen')

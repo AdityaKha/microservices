@@ -17,15 +17,14 @@ export default ({ postId , handleOutput }) => {
         handleOutput('karde')
     }
 
-    console.log(postId)
 
     return <div>
         <form onSubmit={onSubmit}>
             <div className='form-group'>
                 <label>Comment {postId}</label>
-                <div class="input-group mb-3">
+                <div className="input-group mb-3">
                     <input value={comment} onChange={e => setComment(e.target.value)} type="text" className="form-control" placeholder="Recipient's username" />
-                    <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Create Post</button>
+                    <button className="btn btn-outline-secondary" type="submit" id="button-addon2">Add Comment</button>
                 </div>
             </div>
         </form>
