@@ -10,6 +10,7 @@ const posts = {}
 
 app.post('/events', (req, res) => {
     const { type, data } = req.body
+    console.log('Event fron query service' + req.body)
 
     if (type === 'PostCreated') {
         const { id, title } = data
@@ -18,8 +19,8 @@ app.post('/events', (req, res) => {
 
 
     if (type === 'CommentCreated') {
-        const { postId, id, content } = data
-        posts[postId].comments.push({ id, content })
+        const { postId, id, content, status } = data
+        posts[postId].comments.push({ id, content, status })
     }
 
     console.log(posts)

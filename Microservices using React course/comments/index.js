@@ -25,6 +25,7 @@ app.get('/posts/:id/comments', (req, res) => {
     res.send(commentsByPostId[req.params.id] || [])
 })
 
+/// Creates a comment.
 app.post('/posts/:id/comments', async (req, res) => {
     const commentId = crypto.randomBytes(4).toString('hex')
     const { content } = req.body
@@ -34,22 +35,44 @@ app.post('/posts/:id/comments', async (req, res) => {
 
     commentsByPostId[postId] = comments
 
+    // Event-bus 
     await axios.post('http://localhost:4005/events', {
         type: "CommentCreated",
         data: {
             id: commentId,
             content,
-            postId
+            postId,
+            status: 'pending'
         }
     })
 
     res.status(201).send(commentsByPostId)
 })
 
-app.post('/events', (req, res) => {
+app.post('/events', async (req, res) => {
     const event = req.body
-    console.log(event.type)
-   
+    console.log('Event fron comment service')
+
+    const { type, data } = req.body
+
+    if (type === 'CommentModerated') {
+        const { postId, id, status } = data
+        const comments = commentsByPostId[postId] || []
+
+        const comment = comments.find((v) => v === id)
+        comment.status = status
+
+        await axios.push('https://localhost:4005/events', {
+            type: 'CommentUpdated',
+            data: {
+                id,
+                postId,
+                status,
+                content
+            }
+        })
+    }
+
 
     res.send({ status: "Ok" })
 })
