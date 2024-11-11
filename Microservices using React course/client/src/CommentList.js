@@ -7,7 +7,7 @@ const CommentList = ({ comments }) => {
             <li
                 key={comment.id}
             >
-                <h3>{comment.content} {comment.id}</h3>
+                <h3>{comment.content} {comment.id} {comment.status}</h3>
             </li>
         );
     });

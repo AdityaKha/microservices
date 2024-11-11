@@ -9,7 +9,7 @@ const posts = {}
 
 app.post('/events', async (req, res) => {
     const { type, data } = req.body
-
+    console.log(req.body)
     if (type === 'CommentCreated') {
         const status = data.content.includes('orange') ? 'rejected' : 'approve'
 
